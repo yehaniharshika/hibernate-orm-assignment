@@ -51,12 +51,13 @@ public class Main {
             System.out.println(book.getPublicationYear());
             System.out.println(book.getPrice());
         }
+        System.out.println("---------------------------------------------------------------------------------------------");
 
         /*2. Write an HQL update query to increase the price of all books published by a specific
         author by 10%.*/
-        Query query = session.createQuery("update Book set price = price * 1.1 where author.authorId = :authorId");
-        query.setParameter("authorId", 4); //author id
-        int numOfBooksUpdated = query.executeUpdate();
+        Query updateQuery = session.createQuery("update Book set price = price * 1.1 where author.authorId = :authorId");
+        updateQuery.setParameter("authorId", 4); //author id
+        int numOfBooksUpdated = updateQuery.executeUpdate();
         System.out.println("Number of books updated: " + numOfBooksUpdated);
 
         //to print Book's updated price
@@ -65,6 +66,7 @@ public class Main {
         Book book = (Book) fetchQuery.uniqueResult();
 
         System.out.println("Updated price of book " + book.getBookId() + ": " + book.getPrice());
+        System.out.println("---------------------------------------------------------------------------------------------");
 
         /*3. Implement a method to delete an author and cascade the deletion to all associated books
         using appropriate cascade options.*/
@@ -79,10 +81,27 @@ public class Main {
         Query avqQuery =  session.createQuery("select avg(b.price) from Book b ");
         double avgPrice = (double) avqQuery.uniqueResult();
         System.out.println(avgPrice);
-
-
+        System.out.println("---------------------------------------------------------------------------------------------");
 
         /*5. Write an HQL query to retrieve all authors along with the count of books they have written.*/
+        String hql = "select a.authorId, a.authorName, count (b.bookId) from Author a join Book b on a.authorId=b.author.authorId group by a.authorId, a.authorName";
+        Query listQuery = session.createQuery(hql);
+        System.out.println(listQuery);
+        List<Object[]> list = listQuery.getResultList();
+        for (Object[] object : list){
+            int authorId = (int) object[0];
+            String authorName = (String) object[1];
+            long bookCount = (long) object[2];
+
+            System.out.println(authorId + " , " + authorName + " , " + bookCount);
+        }
+        System.out.println("---------------------------------------------------------------------------------------------");
+
+        /*6. Write an HQL query using named parameters to retrieve books written by authors from a
+        specific country.*/
+
+
+
         transaction.commit();
         session.close();
     }
