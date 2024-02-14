@@ -10,18 +10,20 @@ public class Author {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     private int authorId;
     private String authorName;
+    private String country;
 
-    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL , orphanRemoval = true)
     private List<Book> bookList;
 
     public Author(){
 
     }
 
-    public Author(int authorId, String authorName, List<Book> bookList) {
+    public Author(int authorId, String authorName, List<Book> bookList, String country) {
         this.authorId = authorId;
         this.authorName = authorName;
         this.bookList = bookList;
+        this.country = country;
     }
 
     public int getAuthorId() {
@@ -46,5 +48,13 @@ public class Author {
 
     public void setBookList(List<Book> bookList) {
         this.bookList = bookList;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

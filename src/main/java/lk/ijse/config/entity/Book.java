@@ -1,19 +1,19 @@
 package lk.ijse.config.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
 
 public class Book {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int bookId;
     private String title;
     private int publicationYear;
     private  double price;
 
     @ManyToOne
+    @JoinColumn(name = "authorId")
     private Author author;
 
     public Book(){
