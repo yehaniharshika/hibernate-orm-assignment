@@ -1,6 +1,7 @@
 package lk.ijse;
 
 import lk.ijse.config.FactoryConfiguration;
+import lk.ijse.config.entity.Author;
 import lk.ijse.config.entity.Book;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -111,8 +112,14 @@ public class Main {
 
         /*10. Write an HQL query to find authors who have written more than the average number of
         books.*/
+        Query Lastquery = session.createQuery("select a.authorName from Book b join Author a on b.author.authorId = a.authorId group by " +
+                "b.author.authorId having count(b.bookId) > (select avg(sub.avgBookCount) from (select count(b1.bookId) as avgBookCount from " +
+                "Book b1 group by b1.author.authorId) as sub)");
+        List<String> nameList = Lastquery.list();
 
-
+        for (String name : nameList) {
+            System.out.println(name);
+        }
 
         transaction.commit();
         session.close();
