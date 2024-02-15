@@ -51,6 +51,9 @@ HQL Query Assignment
         return isDeleted;
    }
 
+   @OneToMany(mappedBy = "author",cascade = CascadeType.REMOVE , orphanRemoval = true)
+   private List<Book> bookList;
+
 
 4. Write an HQL query to find the average price of all books.
 
