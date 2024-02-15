@@ -48,14 +48,14 @@ public class Main {
 
         /*2. Write an HQL update query to increase the price of all books published by a specific
         author by 10%.*/
-        Query updateQuery = session.createQuery("update Book  set price = price * 1.1 where id = :authorId");
-        updateQuery.setParameter("authorId", 1); //author id
+        Query updateQuery = session.createQuery("update Book b set b.price = b.price * 1.1 where b.author.authorId = :authorId");
+        updateQuery.setParameter("authorId", 4); //author id
         int numOfBooksUpdated = updateQuery.executeUpdate();
         System.out.println("Number of books updated: " + numOfBooksUpdated);
 
         //to print Book's updated price
         Query fetchQuery = session.createQuery("select b from Book b where b.id = :bookId");
-        fetchQuery.setParameter("bookId", 2); //specific bookId to fetch
+        fetchQuery.setParameter("bookId", 3); //specific bookId to fetch
         Book book = (Book) fetchQuery.uniqueResult();
 
         System.out.println("Updated price of book " + book.getBookId() + ": " + book.getPrice());
@@ -64,7 +64,7 @@ public class Main {
 
         /*3. Implement a method to delete an author and cascade the deletion to all associated books
         using appropriate cascade options.*/
-        deleteAuthor(book.getBookId());
+        deleteAuthor(1);
         System.out.println("---------------------------------------------------------------------------------------------");
 
 

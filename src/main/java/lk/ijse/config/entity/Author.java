@@ -12,7 +12,7 @@ public class Author {
     private String authorName;
     private String country;
 
-    @OneToMany(mappedBy = "author",cascade = CascadeType.ALL , orphanRemoval = true)
+    @OneToMany(mappedBy = "author",cascade = CascadeType.REMOVE , orphanRemoval = true)
     private List<Book> bookList;
 
     public Author(){
